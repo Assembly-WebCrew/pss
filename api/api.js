@@ -3,7 +3,7 @@ import restify from 'restify'
 import bunyan from 'bunyan'
 import os from 'os'
 
-const log = bunyan.createLogger( { name: 'ucdevapi', level: 'DEBUG' } );
+const log = bunyan.createLogger( { name: 'pss-api', level: 'DEBUG' } );
 var ipaddr = require('./ipaddr');
 var misc = require('./misc');
 var virtserver = require('./server');

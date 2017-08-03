@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Security to the doors",
+        "name_fi": "JV:t oville",
+        "description": "Get a move on!",
+        "description_fi": "Sykkii sykkii!",
+        "language": "fi+en",
+        "url": "https://www.assembly.org/security/",
+        "stream_url": "https://www.assembly.org/streams/asmtv",
+        "startsAt": "2027-08-01T10:00:00Z",
+        "originallyStartsAt": "2027-08-01T10:00:00Z",
+        "endsAt": "2027-08-01T10:00:00Z",
+        "tags": "security, opening",
+        "location": "maindoor",
+        "party": "asms27",
+        "startsAfter": ""
+    },
+    {
+        "name": "Doors open",
+        "name_fi": "Ovet auki",
+        "description": "It has begun",
+        "description_fi": "Nyt pääsee sisään!",
+        "language": "fi+en",
+        "url": "https://www.assembly.org/guide/arriving/",
+        "stream_url": "https://www.assembly.org/streams/asmtv",
+        "startsAt": "2027-08-01T10:00:00Z",
+        "originallyStartsAt": "2027-08-01T10:00:00Z",
+        "endsAt": "2027-08-01T10:00:00Z",
+        "tags": "security, opening",
+        "location": "maindoor",
+        "party": "asms27",
+        "startsAfter": "0"
+    }
+]

@@ -19,12 +19,10 @@ export default function (sequelize, DataTypes) {
     },
     coordinates: {
         type: DataTypes.GEOMETRY('POINT')
-    }
-  },{
-    classMethods: {
-        associate: (models) => {
-            Location.belongsTo(models.party, { as: 'party'})
-        }
+    },
+    party: {
+        type: DataTypes.STRING,
+        validate: { len: [3,15] }
     }
   })
   return Location

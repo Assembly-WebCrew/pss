@@ -10,7 +10,6 @@ var User = sequelize.define('user', {
     },
     username: {
         type: DataTypes.STRING,
-        field: 'username',
         validate: { len: [3,64] }
     },
     email: {
@@ -18,13 +17,8 @@ var User = sequelize.define('user', {
         validate: { isEmail: true, len: [5,128] } 
     },
     password: DataTypes.STRING
-}, {
-    classMethods: {
-        associate: models => {
-            User.hasMany(models.server, {as: 'servers'}),
-            User.hasMany(models.storage_device, {as: 'storages'})
-        }        
-    },
+}, 
+{
     instanceMethods: {
         generateHash: function(password) {
             return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

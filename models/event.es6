@@ -16,6 +16,10 @@ export default function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         validate: { len: [3,4096] }
     },
+    language: {
+        type: DataTypes.ENUM,
+        values: ["fi", "en", "se", "ru", "fi+en"]
+    },
     url: { 
         type: DataTypes.STRING,
         validate: { isUrl: true, len: [5,512] }
@@ -37,16 +41,19 @@ export default function (sequelize, DataTypes) {
         defaultValue: DataTypes.NOW
     },
     tags: {
-        Type: DataTimes.STRING,
+        type: DataTypes.STRING,
         defaultValue: ""
-    }
-  },{
-    classMethods: {
-        associate: (models) => {
-            Event.belongsTo(models.location, { as: 'location_id' }),
-            Event.belongsTo(models.party, { as: 'party' }),
-            Event.hasOne(models.event, { as: 'startsAfter' })
-        }
+    },
+    location: {
+        type: DataTypes.STRING,
+        validate: { len: [3,30] }
+    },
+    party: {
+        type: DataTypes.STRING,
+        validate: { len: [3,15] }
+    },
+    startsAfter: {
+        type: DataTypes.INTEGER
     }
   })
   return Event

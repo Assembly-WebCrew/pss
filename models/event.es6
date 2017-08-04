@@ -53,7 +53,8 @@ export default function (sequelize, DataTypes) {
         validate: { len: [3,15] }
     },
     startsAfter: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: -1
     }
   })
   return Event

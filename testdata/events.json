@@ -13,7 +13,7 @@
         "tags": "security, opening",
         "location": "maindoor",
         "party": "asms27",
-        "startsAfter": ""
+        "startsAfter": "-1"
     },
     {
         "name": "Doors open",

@@ -1,6 +1,9 @@
 import models from '../models'
 import fs from 'fs'
 
+process.on('unhandledRejection', error => {
+  console.log("A promise was rejected but the error wasn't handled:", error);
+})
 insertTestdata();
 
 
@@ -21,11 +24,10 @@ async function insertTestdata() {
     await models.party.create(party);
   }
   for (const location of locations) {
-    var dblocation = models.location.build(location);
-    console.log(dblocation); //debug
     await models.location.create(location);
   }
   for (const event of events) {
+    //console.log(models.event.build(event)); //debug
     await models.event.create(event);
   }
    

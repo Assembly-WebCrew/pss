@@ -18,7 +18,8 @@ export default function (sequelize, DataTypes) {
         validate: { isUrl: true, len: [5,512] }
     },
     coordinates: {
-        type: DataTypes.GEOMETRY('POINT')
+        type: DataTypes.STRING,
+        validate: { len: [3,50] }
     },
     party: {
         type: DataTypes.STRING,

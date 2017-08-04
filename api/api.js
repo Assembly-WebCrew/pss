@@ -70,7 +70,8 @@ export function startServer() {
         tags: { $like: '%' + tags[0] + '%' }
       }
     }).then((events) => {
-      // If we have more tags, we'll filter out the ones without all of them.
+
+      // If we have more than one tag, we'll filter out events without all of them.
       if (tags.length > 1) {
         var tempevents = [];
         events.forEach((event) => {
@@ -111,6 +112,30 @@ export function startServer() {
   })
 
   server.get('/api/events', (req, res, next) => {
+    log.error(new Date() + ' No party specified.');
+    res.send(400, 'No party specified. Try with /api/events/partyid found from /api/events/parties')
+  })
+
+  server.get('/api/parties/:partyid', (req, res, next) => {
+    if (req.params.partyid.length < 3) {
+      log.error(new Date() + ' No party specified.');
+      res.send(400, 'No party specified. Get all active parties from /api/events/parties')
+    }
+
+    models.party.findOne({
+      where: { 
+        shortname: req.params.partyid,
+        active: true
+      }
+    }).then((parties) => {
+      res.send(200, parties);
+    }).catch((err) => {
+      log.error(new Date() + ' Error when fetching parties: ' + err);
+      res.send(500, 'Error when fetching party. Please check service status.');
+    })
+  })
+  
+  server.get('/api/parties', (req, res, next) => {
     models.party.findAll({
       where: { active: true }
     }).then((parties) => {

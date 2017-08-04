@@ -26,9 +26,9 @@
         "startsAt": "2027-08-01T10:00:00Z",
         "originallyStartsAt": "2027-08-01T10:00:00Z",
         "endsAt": "2027-08-01T10:00:00Z",
-        "tags": "security, opening",
+        "tags": "opening",
         "location": "maindoor",
         "party": "asms27",
-        "startsAfter": "0"
+        "startsAfter": "1"
     }
 ]

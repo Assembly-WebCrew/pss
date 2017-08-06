@@ -1,34 +1,68 @@
 [
     {
-        "name": "Security to the doors",
-        "name_fi": "JV:t oville",
-        "description": "Get a move on!",
-        "description_fi": "Sykkii sykkii!",
-        "language": "fi+en",
         "url": "https://www.assembly.org/security/",
         "stream_url": "https://www.assembly.org/streams/asmtv",
         "startsAt": "2027-08-01T10:00:00Z",
         "originallyStartsAt": "2027-08-01T10:00:00Z",
         "endsAt": "2027-08-01T10:00:00Z",
         "tags": "security, opening",
-        "location": "maindoor",
+        "location": "4",
         "party": "asms27",
-        "startsAfter": "-1"
+        "startsAfter": "-1",
+        "translations": [
+            {
+                "type": "name",
+                "lang": "en",
+                "text": "Security to the doors"
+            },
+            {
+                "type": "name",
+                "lang": "fi",
+                "text": "JV:t oville"
+            },
+            {
+                "type": "description",
+                "lang": "en",
+                "text": "Get a move on!"
+            },
+            {
+                "type": "description",
+                "lang": "fi",
+                "text": "Liikkuu liikkuu!"
+            }
+        ]
     },
     {
-        "name": "Doors open",
-        "name_fi": "Ovet auki",
-        "description": "It has begun",
-        "description_fi": "Nyt pääsee sisään!",
-        "language": "fi+en",
         "url": "https://www.assembly.org/guide/arriving/",
         "stream_url": "https://www.assembly.org/streams/asmtv",
         "startsAt": "2027-08-01T10:00:00Z",
         "originallyStartsAt": "2027-08-01T10:00:00Z",
         "endsAt": "2027-08-01T10:00:00Z",
         "tags": "opening",
-        "location": "maindoor",
+        "location": "4",
         "party": "asms27",
-        "startsAfter": "1"
+        "startsAfter": "1",
+        "translations": [
+            {
+                "type": "name",
+                "lang": "en",
+                "text": "Doors open"
+            },
+            {
+                "type": "name",
+                "lang": "fi",
+                "text": "Ovet auki"
+            },
+            {
+                "type": "description",
+                "lang": "en",
+                "text": "It has begun!"
+            },
+            {
+                "type": "description",
+                "lang": "fi",
+                "text": "Nyt pääsee sisään!"
+            }
+        ]
     }
 ]

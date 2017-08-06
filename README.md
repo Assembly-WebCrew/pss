@@ -31,4 +31,8 @@ npm run resetdb
 
 ## Usage
 
-TODO
+API uses RESTful structure to view events. For example:
+
+GET /api/events/asms27 (returns all events for Assembly Summer 2027)
+GET /api/events/asms27/esports (returns all events with 'esports' tag for Assembly Summer 2027)
+

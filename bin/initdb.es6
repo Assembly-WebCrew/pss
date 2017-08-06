@@ -26,9 +26,15 @@ async function insertTestdata() {
   for (const location of locations) {
     await models.location.create(location);
   }
+
   for (const event of events) {
-    //console.log(models.event.build(event)); //debug
-    await models.event.create(event);
+    await models.event.create(event).then((createdevent) => {
+      event.translations.forEach((translation) => {
+        var trans = models.translation.build(translation);
+        trans.eventId = createdevent.id;
+        trans.save();
+      })
+    });
   }
    
   models.sequelize.close();

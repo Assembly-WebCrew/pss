@@ -20,9 +20,9 @@ exports.singleparty = (req, res) => {
     req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
   }
-  
+
   models.party.findOne({
-    where: { 
+    where: {
       shortname: req.params.partyid,
       public: true
     }

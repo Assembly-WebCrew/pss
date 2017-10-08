@@ -6,7 +6,7 @@ const removeinternals = (event) => {
 
 exports.allevents = (req, res) => {
   models.event.findAll({
-    where: { 
+    where: {
       party: req.params.party,
       public: true
     }
@@ -24,9 +24,9 @@ exports.singlepartyevents = (req, res) => {
     req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
   }
-  
+
   models.event.findAll({
-    where: { 
+    where: {
       party: req.params.party,
       public: true
     }
@@ -44,9 +44,9 @@ exports.taggedevents = (req, res) => {
     req.log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
     res.send(404, 'Defined party or tags do not meet requirements: ' + req.params.party);
   }
-  
+
   var tags = [];
-  
+
   if (req.params.tags.includes('+')) {
     req.params.tags.split('+').forEach((tag) => {
       tags.push(tag);
@@ -55,14 +55,14 @@ exports.taggedevents = (req, res) => {
   else {
     tags.push(req.params.tags);
   }
-    
+
   models.event.findAll({
-    where: { 
+    where: {
       party: req.params.party,
       tags: { $like: '%' + tags[0] + '%' }
     }
   }).then((events) => {
-  
+
     // If we have more than one tag, we'll filter out events without all of them.
     if (tags.length > 1) {
       var tempevents = [];
@@ -77,7 +77,7 @@ exports.taggedevents = (req, res) => {
       })
       events = tempevents;
     }
-  
+
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
   }).catch((err) => {

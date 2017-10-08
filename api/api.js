@@ -3,12 +3,12 @@ import restify from 'restify';
 import bunyan from 'bunyan';
 import os from 'os';
 
-const log = bunyan.createLogger( { name: 'pss-api', level: 'DEBUG' } );
+const log = bunyan.createLogger({ name: 'pss-api', level: 'DEBUG' });
 
 const commonroutes = require('./routes/common.js');
 const eventroutes = require('./routes/events.js');
 const partyroutes = require('./routes/parties.js');
-const locationroutes = require('/routes/locations.js');
+const locationroutes = require('./routes/locations.js');
 
 export function startServer() {
   const server = restify.createServer({
@@ -24,7 +24,7 @@ export function startServer() {
     //req.log.info({req: req}, 'start'); // for query debugging
     return next();
   })
-  
+
   server.get('/api/status', commonroutes.status);
 
   server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
@@ -40,7 +40,7 @@ export function startServer() {
   // TODO auth
   // TODO admin routes & functions
 
-  server.listen( process.env.PORT || 8080, process.env.IP || "0.0.0.0", () =>
-    log.info( '%s server listening at %s', server.name, server.url )
+  server.listen(process.env.PORT || 8080, process.env.IP || "0.0.0.0", () =>
+    log.info('%s server listening at %s', server.name, server.url)
   )
 }

@@ -16,9 +16,28 @@ exports.alllocations = (req, res) => {
   });
 }
 
-exports.singlelocation = (req, res) => {
+exports.partylocations = (req, res) => {
   models.location.findAll({
-    where: { public: true }
+    where: {
+      public: true,
+      party: req.params.party
+    }
+  }).then((location) => {
+    // TODO removeinternals for location
+    res.send(200, location);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error when fetching location:', err);
+    res.send(500, 'Error when fetching locations. Please check service status.');
+  });
+}
+
+exports.singlelocation = (req, res) => {
+  models.location.findOne({
+    where: {
+      public: true,
+      party: req.params.party,
+      location_id: req.params.location
+    }
   }).then((location) => {
     // TODO removeinternals for location
     res.send(200, location);

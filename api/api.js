@@ -30,15 +30,16 @@ export function startServer() {
   server.get('/api/status', commonroutes.status);
   server.get('/api/status/authenticated', auth.checkAuthentication, commonroutes.status); // placeholder way for verifying authentication, or perhaps some extra status data could be served here...
 
-  server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
-  server.get('/api/events/:party', eventroutes.singlepartyevents);
   server.get('/api/events', eventroutes.allevents);
+  server.get('/api/events/:party', eventroutes.singlepartyevents);
+  server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
 
   server.get('/api/locations', locationroutes.alllocations);
-  server.get('/api/locations/:location', locationroutes.singlelocation);
+  server.get('/api/locations/:party', locationroutes.partylocations);
+  server.get('/api/locations/:party/:location', locationroutes.singlelocation);
 
-  server.get('/api/parties/:partyid', partyroutes.singleparty);
   server.get('/api/parties', partyroutes.allparties);
+  server.get('/api/parties/:partyid', partyroutes.singleparty);
 
   // TODO admin routes & functions
 

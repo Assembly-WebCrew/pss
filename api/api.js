@@ -8,6 +8,7 @@ const log = bunyan.createLogger( { name: 'pss-api', level: 'DEBUG' } );
 const commonroutes = require('./routes/common.js');
 const eventroutes = require('./routes/events.js');
 const partyroutes = require('./routes/parties.js');
+const locationroutes = require('/routes/locations.js');
 
 export function startServer() {
   const server = restify.createServer({
@@ -30,8 +31,8 @@ export function startServer() {
   server.get('/api/events/:party', eventroutes.singlepartyevents);
   server.get('/api/events', eventroutes.allevents);
 
-  // server.get('/api/locations', locationroutes.alllocations);
-
+  server.get('/api/locations', locationroutes.alllocations);
+  server.get('/api/locations/:location', locationroutes.singlelocation);
 
   server.get('/api/parties/:partyid', partyroutes.singleparty);
   server.get('/api/parties', partyroutes.allparties);

@@ -24,6 +24,10 @@ export default function (sequelize, DataTypes) {
     party: {
         type: DataTypes.STRING,
         validate: { len: [3,15] }
+    },
+    public: {
+        type: DataTypes.BOOLEAN,
+        default: true
     }
   })
   return Location

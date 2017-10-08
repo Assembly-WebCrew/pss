@@ -1,16 +1,16 @@
 import models from '../../models';
 
 const removeinternals = (event) => {
-    // TODO handler for excess party data (publicity etc.) that we don't want to return
-  }
+  // TODO handler for excess party data (publicity etc.) that we don't want to return
+}
 
 exports.allparties = (req, res) => {
   models.party.findAll({
-    where: { active: true }
+    where: { public: true }
   }).then((parties) => {
     res.send(200, parties);
   }).catch((err) => {
-    req.log.error(new Date() + ' Error when fetching parties: ' + err);
+    req.log.error(new Date(), 'Error when fetching parties:', err);
     res.send(500, 'Error when fetching parties. Please check service status.');
   });
 }
@@ -24,13 +24,13 @@ exports.singleparty = (req, res) => {
   models.party.findOne({
     where: { 
       shortname: req.params.partyid,
-      active: true
+      public: true
     }
   }).then((singleparty) => {
     // const cleanedparty = removeinternals(singleparty);
     res.send(200, singleparty);
   }).catch((err) => {
-    req.log.error(new Date() + ' Error when fetching parties: ' + err);
+    req.log.error(new Date(), 'Error when fetching party:', err);
     res.send(500, 'Error when fetching party. Please check service status.');
   })
 }

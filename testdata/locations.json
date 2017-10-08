@@ -5,7 +5,8 @@
         "name_fi": "Päälava",
         "url": "https://www.assembly.org/summer27/locations/mainstage",
         "coordinates": "60.204121, 24.938255",
-        "party": "asms27"
+        "party": "asms27",
+        "public": true
     },
     {
         "location_id": "esports",
@@ -13,7 +14,8 @@
         "name_fi": "E-urheilualue",
         "url": "https://www.assembly.org/summer27/locations/esports",
         "coordinates": "60.203111, 24.937515",
-        "party": "asms27"
+        "party": "asms27",
+        "public": true
     },
     {
         "location_id": "pehu",
@@ -21,7 +23,8 @@
         "name_fi": "Pehu Corner",
         "url": "https://www.assembly.org/summer27/locations/pehu",
         "coordinates": "60.203527, 24.938486",
-        "party": "asms27"
+        "party": "asms27",
+        "public": true
     },
     {
         "location_id": "maindoor",
@@ -29,6 +32,7 @@
         "name_fi": "Pääovi",
         "url": "https://www.assembly.org/summer27/locations/maindoor",
         "coordinates": "60.202511, 24.936903",
-        "party": "asms27"
+        "party": "asms27",
+        "public": true
     }
 ]

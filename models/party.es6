@@ -22,9 +22,9 @@ export default function (sequelize, DataTypes) {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    active: {
+    public: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: true
     }
   })
   return Party

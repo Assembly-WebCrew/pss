@@ -6,7 +6,10 @@ const removeinternals = (event) => {
 
 exports.allevents = (req, res) => {
   models.event.findAll({
-    where: { party: req.params.party } // TODO status = public
+    where: { 
+      party: req.params.party,
+      public: true
+    }
   }).then((events) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
@@ -23,7 +26,10 @@ exports.singlepartyevents = (req, res) => {
   }
   
   models.event.findAll({
-    where: { party: req.params.party }
+    where: { 
+      party: req.params.party,
+      public: true
+    }
   }).then((events) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);

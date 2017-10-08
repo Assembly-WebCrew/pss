@@ -10,6 +10,8 @@ const eventroutes = require('./routes/events.js');
 const partyroutes = require('./routes/parties.js');
 const locationroutes = require('./routes/locations.js');
 
+const auth = require('./auth.js');
+
 export function startServer() {
   const server = restify.createServer({
     "name": "Party Schedule Service API",
@@ -26,6 +28,7 @@ export function startServer() {
   })
 
   server.get('/api/status', commonroutes.status);
+  server.get('/api/status/authenticated', auth.checkAuthentication, commonroutes.status); // placeholder way for verifying authentication, or perhaps some extra status data could be served here...
 
   server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
   server.get('/api/events/:party', eventroutes.singlepartyevents);
@@ -37,7 +40,6 @@ export function startServer() {
   server.get('/api/parties/:partyid', partyroutes.singleparty);
   server.get('/api/parties', partyroutes.allparties);
 
-  // TODO auth
   // TODO admin routes & functions
 
   server.listen(process.env.PORT || 8080, process.env.IP || "0.0.0.0", () =>

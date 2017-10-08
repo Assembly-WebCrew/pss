@@ -10,7 +10,10 @@ const eventroutes = require('./routes/events.js');
 const partyroutes = require('./routes/parties.js');
 
 export function startServer() {
-  const server = restify.createServer();
+  const server = restify.createServer({
+    "name": "Party Schedule Service API",
+    "log": log
+  });
   server.use(restify.CORS());
   server.use(restify.acceptParser(server.acceptable));
   server.use(restify.bodyParser({ mapParams: true }));
@@ -26,6 +29,9 @@ export function startServer() {
   server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
   server.get('/api/events/:party', eventroutes.singlepartyevents);
   server.get('/api/events', eventroutes.allevents);
+
+  // server.get('/api/locations', locationroutes.alllocations);
+
 
   server.get('/api/parties/:partyid', partyroutes.singleparty);
   server.get('/api/parties', partyroutes.allparties);

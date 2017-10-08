@@ -9,6 +9,7 @@
         "location": "4",
         "party": "asms27",
         "startsAfter": "-1",
+        "public": false,
         "translations": [
             {
                 "type": "name",
@@ -42,6 +43,7 @@
         "location": "4",
         "party": "asms27",
         "startsAfter": "1",
+        "public": true,
         "translations": [
             {
                 "type": "name",

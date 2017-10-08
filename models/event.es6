@@ -27,6 +27,10 @@ export default function (sequelize, DataTypes) {
     startsAfter: {
         type: DataTypes.INTEGER,
         defaultValue: -1
+    },
+    public: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
   }, {
       classMethods: {

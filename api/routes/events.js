@@ -11,14 +11,14 @@ exports.allevents = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
   }).catch((err) => {
-    log.error(new Date(), 'Error when fetching events:', err);
+    req.log.error(new Date(), 'Error when fetching events:', err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
   });
 }
 
 exports.singlepartyevents = (req, res) => {
   if (req.params.party.length < 3) {
-    log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
+    req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
   }
   
@@ -28,14 +28,14 @@ exports.singlepartyevents = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
   }).catch((err) => {
-    log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
+    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
   });
 }
 
 exports.taggedevents = (req, res) => {
   if (req.params.party.length < 3 || req.params.tags.length < 2) {
-    log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
+    req.log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
     res.send(404, 'Defined party or tags do not meet requirements: ' + req.params.party);
   }
   
@@ -75,7 +75,7 @@ exports.taggedevents = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
   }).catch((err) => {
-    log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
+    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
   })
 }

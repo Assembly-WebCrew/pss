@@ -2,6 +2,7 @@
   "name": "pss",
   "version": "0.1.0",
   "description": "Party Schedule Service",
+  "repository": "https://github.com/Assembly-WebCrew/pss",
   "main": "api/index.js",
   "scripts": {
     "start": "nodemon | bunyan",
@@ -17,9 +18,9 @@
   "author": "Antti Myyrä & Assembly Webcrew",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^1.0.2",
-    "eslint": "^4.3.0",
-    "mysql": "^2.13.0",
+    "bcrypt": "^1.0.3",
+    "eslint": "^4.8.0",
+    "mysql": "^2.15.0",
     "sequelize": "^3.30.4"
   },
   "devDependencies": {

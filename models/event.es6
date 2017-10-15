@@ -36,8 +36,8 @@ export default function (sequelize, DataTypes) {
             classMethods: {
                 associate: (models) => {
                     Event.hasMany(models.translation, { as: 'translations' }),
-                        Event.belongsTo(models.party, { as: 'shortname', foreignKey: 'party' }),
-                        Event.belongsTo(models.location, { as: 'location_id', foreignKey: 'location' })
+                    Event.belongsTo(models.party, { as: 'shortname', foreignKey: 'party' }),
+                    Event.belongsTo(models.location, { as: 'location_id', foreignKey: 'location' })
                 }
             }
         })

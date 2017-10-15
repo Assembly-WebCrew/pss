@@ -5,10 +5,10 @@ import os from 'os';
 
 const log = bunyan.createLogger({ name: 'pss-api', level: 'DEBUG' });
 
-const commonroutes = require('./routes/common.js');
-const eventroutes = require('./routes/events.js');
-const partyroutes = require('./routes/parties.js');
-const locationroutes = require('./routes/locations.js');
+const commonRoutes = require('./routes/common.js');
+const eventRoutes = require('./routes/events.js');
+const partyRoutes = require('./routes/parties.js');
+const locationRoutes = require('./routes/locations.js');
 
 const auth = require('./auth.js');
 
@@ -27,19 +27,19 @@ export function startServer() {
     return next();
   })
 
-  server.get('/api/status', commonroutes.status);
-  server.get('/api/status/authenticated', auth.checkAuthentication, commonroutes.status); // placeholder way for verifying authentication, or perhaps some extra status data could be served here...
+  server.get('/api/status', commonRoutes.status);
+  server.get('/api/status/authenticated', auth.checkAuthentication, commonRoutes.status); // placeholder way for verifying authentication, or perhaps some extra status data could be served here...
 
-  server.get('/api/events', eventroutes.allevents);
-  server.get('/api/events/:party', eventroutes.singlepartyevents);
-  server.get('/api/events/:party/tags/:tags', eventroutes.taggedevents);
+  server.get('/api/events', eventRoutes.allEvents);
+  server.get('/api/events/:party', eventRoutes.singlePartyEvents);
+  server.get('/api/events/:party/tags/:tags', eventRoutes.taggedEvents);
 
-  server.get('/api/locations', locationroutes.alllocations);
-  server.get('/api/locations/:party', locationroutes.partylocations);
-  server.get('/api/locations/:party/:location', locationroutes.singlelocation);
+  server.get('/api/locations', locationRoutes.allLocations);
+  server.get('/api/locations/:party', locationRoutes.partyLocations);
+  server.get('/api/locations/:party/:location', locationRoutes.singleLocation);
 
-  server.get('/api/parties', partyroutes.allparties);
-  server.get('/api/parties/:partyid', partyroutes.singleparty);
+  server.get('/api/parties', partyRoutes.allParties);
+  server.get('/api/parties/:partyid', partyRoutes.singleParty);
 
   // TODO admin routes & functions
 

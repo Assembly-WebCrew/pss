@@ -1,10 +1,10 @@
 import models from '../../models';
 
-const removeinternals = (event) => {
+const removeInternals = (event) => {
   // TODO handler for excess location data (publicity etc.) that we don't want to return
 }
 
-exports.alllocations = (req, res) => {
+exports.allLocations = (req, res) => {
   models.location.findAll({
     where: { public: true }
   }).then((locations) => {
@@ -16,14 +16,14 @@ exports.alllocations = (req, res) => {
   });
 }
 
-exports.partylocations = (req, res) => {
+exports.partyLocations = (req, res) => {
   models.location.findAll({
     where: {
       public: true,
       party: req.params.party
     }
   }).then((location) => {
-    // TODO removeinternals for location
+    // TODO removeInternals for location
     res.send(200, location);
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching location:', err);
@@ -31,7 +31,7 @@ exports.partylocations = (req, res) => {
   });
 }
 
-exports.singlelocation = (req, res) => {
+exports.singleLocation = (req, res) => {
   models.location.findOne({
     where: {
       public: true,
@@ -39,7 +39,7 @@ exports.singlelocation = (req, res) => {
       location_id: req.params.location
     }
   }).then((location) => {
-    // TODO removeinternals for location
+    // TODO removeInternals for location
     res.send(200, location);
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching location:', err);

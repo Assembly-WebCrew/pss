@@ -1,10 +1,10 @@
 import models from '../../models';
 
-const removeinternals = (event) => {
+const removeInternals = (event) => {
   // TODO handler for excess event data (publicity etc.) that we don't want to return
 }
 
-exports.allevents = (req, res) => {
+exports.allEvents = (req, res) => {
   models.event.findAll({
     where: {
       party: req.params.party,
@@ -19,7 +19,7 @@ exports.allevents = (req, res) => {
   });
 }
 
-exports.singlepartyevents = (req, res) => {
+exports.singlePartyEvents = (req, res) => {
   if (req.params.party.length < 3) {
     req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
@@ -39,7 +39,7 @@ exports.singlepartyevents = (req, res) => {
   });
 }
 
-exports.taggedevents = (req, res) => {
+exports.taggedEvents = (req, res) => {
   if (req.params.party.length < 3 || req.params.tags.length < 2) {
     req.log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
     res.send(404, 'Defined party or tags do not meet requirements: ' + req.params.party);

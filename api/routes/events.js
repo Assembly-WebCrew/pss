@@ -1,7 +1,40 @@
 import models from '../../models';
 
 const removeInternals = (event) => {
-  // TODO handler for excess event data (publicity etc.) that we don't want to return
+  // TODO handler for excess event data (publicity etc.) that we don't want to return to normal users
+}
+
+const stripTags = (rawTags) => {
+  var tags = [];
+  
+  if (rawTags.includes('+')) {
+    rawTags.split('+').forEach((tag) => {
+      tags.push(tag);
+    });
+  }
+  else {
+    tags.push(req.params.tags);
+  }
+
+  return tags;
+}
+
+const filterTaggedEvents = (events, tags) => {
+  // If we have more than one tag, we'll filter out events without all of them.
+  if (tags.length > 1) {
+    var tempevents = [];
+    events.forEach((event) => {
+      var included = true;
+      tags.forEach((tag) => {
+        if (!event.tags.includes(tag)) included = false;
+      })
+      if (included) {
+        tempevents.push(event);
+      }
+    })
+
+    return tempevents;
+  }
 }
 
 exports.allEvents = (req, res) => {
@@ -39,22 +72,115 @@ exports.singlePartyEvents = (req, res) => {
   });
 }
 
+exports.singleEvent = (req, res) => {
+  if (req.params.party.length < 3 || Number.isInteger(req.params.event)) {
+    req.log.error(new Date(), 'Party', req.params.party, 'or event', req.params.event, 'does not match requirements and cannot exist.');
+    res.send(404, 'Defined party or event does not meet requirements.');
+  }
+  
+  models.event.findOne({
+    where: {
+      party: req.params.party,
+      id: req.params.event,
+      public: true
+    }
+  }).then((event) => {
+    res.setHeader('Content-Type', 'application/json');
+    // TODO removeInternals(event)
+    res.send(200, event);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error fetching event', req.params.event, 'for party', req.params.party);
+  });
+}
+
 exports.taggedEvents = (req, res) => {
   if (req.params.party.length < 3 || req.params.tags.length < 2) {
     req.log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
     res.send(404, 'Defined party or tags do not meet requirements: ' + req.params.party);
   }
 
-  var tags = [];
+  var tags = stripTags(req.params.tags);
 
-  if (req.params.tags.includes('+')) {
-    req.params.tags.split('+').forEach((tag) => {
-      tags.push(tag);
-    });
+  models.event.findAll({
+    where: {
+      party: req.params.party,
+      tags: { $like: '%' + tags[0] + '%' },
+      public: true
+    }
+  }).then((events) => {
+    events = filterTaggedEvents(events, tags);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(200, events);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
+    res.send(500, 'Error when fetching events for party ' + req.params.party);
+  });
+}
+
+exports.adminAllEvents = (req, res) => {
+  if (req.params.party.length < 3) {
+    req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
+    res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
   }
-  else {
-    tags.push(req.params.tags);
+
+  models.event.findAll({
+    where: {
+      party: req.params.party
+    }
+  }).then((events) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(200, events);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
+    res.send(500, 'Error when fetching events for party ' + req.params.party);
+  });
+}
+
+exports.adminSinglePartyEvents = (req, res) => {
+  if (req.params.party.length < 3) {
+    req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
+    res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
   }
+
+  models.event.findAll({
+    where: {
+      party: req.params.party
+    }
+  }).then((events) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(200, events);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
+    res.send(500, 'Error when fetching events for party ' + req.params.party);
+  });
+}
+
+exports.adminSingleEvent = (req, res) => {
+  if (req.params.party.length < 3 || Number.isInteger(req.params.event)) {
+    req.log.error(new Date(), 'Party', req.params.party, 'or event', req.params.event, 'does not match requirements and cannot exist.');
+    res.send(404, 'Defined party or event does not meet requirements.');
+  }
+  
+  models.event.findOne({
+    where: {
+      party: req.params.party,
+      id: req.params.event
+    }
+  }).then((event) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(200, event);
+  }).catch((err) => {
+    req.log.error(new Date(), 'Error fetching event', req.params.event, 'for party', req.params.party);
+  });
+}
+
+exports.adminTaggedEvents = (req, res) => {
+  if (req.params.party.length < 3 || req.params.tags.length < 2) {
+    req.log.error(new Date(), 'Party', req.params.party, 'or tags', req.params.tags, 'do not match requirements and cannot exist.');
+    res.send(404, 'Defined party or tags do not meet requirements: ' + req.params.party);
+  }
+
+  var tags = stripTags(req.params.tags);
 
   models.event.findAll({
     where: {
@@ -62,42 +188,11 @@ exports.taggedEvents = (req, res) => {
       tags: { $like: '%' + tags[0] + '%' }
     }
   }).then((events) => {
-
-    // If we have more than one tag, we'll filter out events without all of them.
-    if (tags.length > 1) {
-      var tempevents = [];
-      events.forEach((event) => {
-        var included = true;
-        tags.forEach((tag) => {
-          if (!event.tags.includes(tag)) included = false;
-        })
-        if (included) {
-          tempevents.push(event);
-        }
-      })
-      events = tempevents;
-    }
-
+    events = filterTaggedEvents(events, tags);
     res.setHeader('Content-Type', 'application/json');
     res.send(200, events);
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
-  })
-}
-
-exports.adminAllEvents = (req, res) => {
-
-}
-
-exports.adminSinglePartyEvents = (req, res) => {
-  
-}
-
-exports.adminSingleEvent = (req, res) => {
-  
-}
-
-exports.adminTaggedEvents = (req, res) => {
-  
+  });
 }

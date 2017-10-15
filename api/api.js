@@ -32,6 +32,7 @@ export function startServer() {
 
   server.get('/api/events', eventRoutes.allEvents);
   server.get('/api/events/:party', eventRoutes.singlePartyEvents);
+  server.get('/api/events/:party/event/:event', eventRoutes.singleEvent);
   server.get('/api/events/:party/tags/:tags', eventRoutes.taggedEvents);
 
   server.get('/api/locations', locationRoutes.allLocations);

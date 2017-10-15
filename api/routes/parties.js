@@ -35,3 +35,11 @@ exports.singleParty = (req, res) => {
     res.send(500, 'Error when fetching party. Please check service status.');
   })
 }
+
+exports.adminAllParties = (req, res) => {
+
+}
+
+exports.adminSingleParty = (req, res) => {
+  
+}

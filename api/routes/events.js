@@ -85,3 +85,19 @@ exports.taggedEvents = (req, res) => {
     res.send(500, 'Error when fetching events for party ' + req.params.party);
   })
 }
+
+exports.adminAllEvents = (req, res) => {
+
+}
+
+exports.adminSinglePartyEvents = (req, res) => {
+  
+}
+
+exports.adminSingleEvent = (req, res) => {
+  
+}
+
+exports.adminTaggedEvents = (req, res) => {
+  
+}

@@ -41,6 +41,18 @@ export function startServer() {
   server.get('/api/parties', partyRoutes.allParties);
   server.get('/api/parties/:partyid', partyRoutes.singleParty);
 
+  server.get('/api/admin/events', eventRoutes.adminAllEvents);
+  server.get('/api/admin/events/:party', eventRoutes.adminSinglePartyEvents);
+  server.get('/api/admin/events/:party/:event', eventRoutes.adminSingleEvent);
+  server.get('/api/admin/events/:party/tags/:tags', eventRoutes.adminTaggedEvents);
+
+  server.get('/api/admin/locations', locationRoutes.adminAllLocations);
+  server.get('/api/admin/locations/:party', locationRoutes.adminPartyLocations);
+  server.get('/api/admin/locations/:party/:location', locationRoutes.adminSingleLocation);
+
+  server.get('/api/admin/parties', partyRoutes.adminAllParties);
+  server.get('/api/admin/parties/:partyid', partyRoutes.adminSingleParty);
+
   // TODO admin routes & functions
 
   server.listen(process.env.PORT || 8080, process.env.IP || "0.0.0.0", () =>

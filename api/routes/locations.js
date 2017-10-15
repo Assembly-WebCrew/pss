@@ -46,3 +46,15 @@ exports.singleLocation = (req, res) => {
     res.send(500, 'Error when fetching location. Please check service status.');
   });
 }
+
+exports.adminAllLocations = (req, res) => {
+
+}
+
+exports.adminPartyLocations = (req, res) => {
+  
+}
+
+exports.adminSingleLocation = (req, res) => {
+  
+}

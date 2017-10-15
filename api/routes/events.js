@@ -156,7 +156,7 @@ exports.taggedEvents = (req, res) => {
 exports.adminAllEvents = (req, res) => {
 
   models.event.findAll({
-    where: {
+    where: { // TODO scope = admin
       party: req.params.party
     }
   }).then((events) => {
@@ -182,7 +182,7 @@ exports.adminSinglePartyEvents = (req, res) => {
   }
 
   models.event.findAll({
-    where: {
+    where: { // TODO scope = admin
       party: req.params.party
     }
   }).then((events) => {
@@ -207,7 +207,7 @@ exports.adminSingleEvent = (req, res) => {
   }
 
   models.event.findOne({
-    where: {
+    where: { // TODO scope = admin
       party: req.params.party,
       id: req.params.event
     }
@@ -235,7 +235,7 @@ exports.adminTaggedEvents = (req, res) => {
   var tags = stripTags(req.params.tags);
 
   models.event.findAll({
-    where: {
+    where: { // TODO scope = admin
       party: req.params.party,
       tags: { $like: '%' + tags[0] + '%' }
     }

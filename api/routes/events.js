@@ -1,13 +1,5 @@
 import models from '../../models';
 
-const removeInternals = (event) => {
-  // TODO handler for excess event data (publicity etc.) that we don't want to return to normal users
-}
-
-const removeTranslationInternals = (translation) => {
-  // TODO remove id, eventId, createdAt & updatedAt
-}
-
 const stripTags = (rawTags) => {
   var tags = [];
 
@@ -44,12 +36,11 @@ const filterTaggedEvents = (events, tags) => {
 const addTranslations = (event) => {
   return new Promise((resolve, reject) => {
     models.translation.findAll({
-      where: {
+      where: { // TODO scope = public
         eventId: event.id
       }
     }).then((translations) => {
       event.dataValues.translations = translations;
-      // TODO removeTranslationInternals
       resolve(event);
     }).catch((err) => {
       reject(err);
@@ -59,7 +50,7 @@ const addTranslations = (event) => {
 
 exports.allEvents = (req, res) => {
   models.event.findAll({
-    where: {
+    where: { // TODO scope = public
       public: true
     }
   }).then((events) => {
@@ -85,7 +76,7 @@ exports.singlePartyEvents = (req, res) => {
   }
 
   models.event.findAll({
-    where: {
+    where: { // TODO scope = public
       party: req.params.party,
       public: true
     }
@@ -111,14 +102,13 @@ exports.singleEvent = (req, res) => {
   }
 
   models.event.findOne({
-    where: {
+    where: { // TODO scope = public
       party: req.params.party,
       id: req.params.event,
       public: true
     }
   }).then((event) => {
     addTranslations(event)
-    // TODO removeInternals(event)
     .then((translatedEvent) => {
       res.setHeader('Content-Type', 'application/json');
       res.send(200, translatedEvent);
@@ -141,14 +131,13 @@ exports.taggedEvents = (req, res) => {
   var tags = stripTags(req.params.tags);
 
   models.event.findAll({
-    where: {
+    where: { // TODO scope = public
       party: req.params.party,
       tags: { $like: '%' + tags[0] + '%' },
       public: true
     }
   }).then((events) => {
     events = filterTaggedEvents(events, tags);
-    // TODO removeInternals(event)
 
     Promise.all(events.map(addTranslations))
     .then((translatedEvents) => {

@@ -1,14 +1,11 @@
 import models from '../../models';
 
-const removeInternals = (event) => {
-  // TODO handler for excess party data (publicity etc.) that we don't want to return
-}
-
 exports.allParties = (req, res) => {
   models.party.findAll({
-    where: { public: true }
+    where: { // TODO scope = public
+      public: true 
+    }
   }).then((parties) => {
-    // TODO removeinternals parties.forEach 
     res.send(200, parties);
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching parties:', err);
@@ -23,12 +20,11 @@ exports.singleParty = (req, res) => {
   }
 
   models.party.findOne({
-    where: {
+    where: { // TODO scope = public
       shortname: req.params.partyid,
       public: true
     }
   }).then((singleparty) => {
-    // TODO removeInternals(singleparty);
     res.send(200, singleparty);
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching party:', err);

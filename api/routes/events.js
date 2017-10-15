@@ -4,6 +4,10 @@ const removeInternals = (event) => {
   // TODO handler for excess event data (publicity etc.) that we don't want to return to normal users
 }
 
+const removeTranslationInternals = (translation) => {
+  // TODO remove id, eventId, createdAt & updatedAt
+}
+
 const stripTags = (rawTags) => {
   var tags = [];
 
@@ -37,14 +41,37 @@ const filterTaggedEvents = (events, tags) => {
   }
 }
 
+const addTranslations = (event) => {
+  return new Promise((resolve, reject) => {
+    models.translation.findAll({
+      where: {
+        eventId: event.id
+      }
+    }).then((translations) => {
+      event.dataValues.translations = translations;
+      // TODO removeTranslationInternals
+      resolve(event);
+    }).catch((err) => {
+      reject(err);
+    })
+  })
+}
+
 exports.allEvents = (req, res) => {
   models.event.findAll({
     where: {
       public: true
     }
   }).then((events) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    })
+    .catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translation for event:', err);
+      res.send(500, 'Error when fetching all events');
+    })
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events:', err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
@@ -63,8 +90,14 @@ exports.singlePartyEvents = (req, res) => {
       public: true
     }
   }).then((events) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translations for party', req.params.party + ':', err);
+      res.send(500, 'Error when fetching events for party ' + req.params.party);
+    });
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
@@ -84,11 +117,18 @@ exports.singleEvent = (req, res) => {
       public: true
     }
   }).then((event) => {
-    res.setHeader('Content-Type', 'application/json');
+    addTranslations(event)
     // TODO removeInternals(event)
-    res.send(200, event);
+    .then((translatedEvent) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvent);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error fetching translations for event', req.params.event, 'in party', req.params.party);
+      res.send(500, 'Error when fetching event ' + req.params.event + ' for party ' + req.params.party);
+    });
   }).catch((err) => {
     req.log.error(new Date(), 'Error fetching event', req.params.event, 'for party', req.params.party);
+    res.send(500, 'Error when fetching event ' + req.params.event + ' for party ' + req.params.party);
   });
 }
 
@@ -108,8 +148,16 @@ exports.taggedEvents = (req, res) => {
     }
   }).then((events) => {
     events = filterTaggedEvents(events, tags);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+    // TODO removeInternals(event)
+
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translations for party', req.params.party + ':', err);
+      res.send(500, 'Error when fetching events for party ' + req.params.party);
+    });    
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
@@ -117,21 +165,24 @@ exports.taggedEvents = (req, res) => {
 }
 
 exports.adminAllEvents = (req, res) => {
-  if (req.params.party.length < 3) {
-    req.log.error(new Date(), 'Party', req.params.party, 'does not match requirements and cannot exist.');
-    res.send(404, 'Defined party does not meet requirements: ' + req.params.party);
-  }
 
   models.event.findAll({
     where: {
       party: req.params.party
     }
   }).then((events) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translations for events:', err);
+      res.send(500, 'Error when fetching events.');
+    });
+    
   }).catch((err) => {
-    req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
-    res.send(500, 'Error when fetching events for party ' + req.params.party);
+    req.log.error(new Date(), 'Error when fetching events:', err);
+    res.send(500, 'Error when fetching events.');
   });
 }
 
@@ -146,8 +197,14 @@ exports.adminSinglePartyEvents = (req, res) => {
       party: req.params.party
     }
   }).then((events) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translations for events in party', req.params.party + ':', err);
+      res.send(500, 'Error when fetching events for party ' + req.params.party);
+    });
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ':', err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);
@@ -166,10 +223,17 @@ exports.adminSingleEvent = (req, res) => {
       id: req.params.event
     }
   }).then((event) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, event);
+    addTranslations(event)
+    .then((translatedEvent) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvent);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error fetching translations for event', req.params.event, 'in party', req.params.party);
+      res.send(500, 'Error when fetching event ' + req.params.event + ' for party ' + req.params.party);
+    });
   }).catch((err) => {
     req.log.error(new Date(), 'Error fetching event', req.params.event, 'for party', req.params.party);
+    res.send(500, 'Error when fetching event ' + req.params.event + ' for party ' + req.params.party);
   });
 }
 
@@ -188,8 +252,15 @@ exports.adminTaggedEvents = (req, res) => {
     }
   }).then((events) => {
     events = filterTaggedEvents(events, tags);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(200, events);
+
+    Promise.all(events.map(addTranslations))
+    .then((translatedEvents) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(200, translatedEvents);
+    }).catch((err) => {
+      req.log.error(new Date(), 'Error when fetching translations for party', req.params.party + ':', err);
+      res.send(500, 'Error when fetching events for party ' + req.params.party);
+    });
   }).catch((err) => {
     req.log.error(new Date(), 'Error when fetching events for party', req.params.party + ' with tags ' + req.params.tags + ': ' + err);
     res.send(500, 'Error when fetching events for party ' + req.params.party);

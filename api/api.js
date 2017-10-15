@@ -41,17 +41,17 @@ export function startServer() {
   server.get('/api/parties', partyRoutes.allParties);
   server.get('/api/parties/:partyid', partyRoutes.singleParty);
 
-  server.get('/api/admin/events', eventRoutes.adminAllEvents);
-  server.get('/api/admin/events/:party', eventRoutes.adminSinglePartyEvents);
-  server.get('/api/admin/events/:party/:event', eventRoutes.adminSingleEvent);
-  server.get('/api/admin/events/:party/tags/:tags', eventRoutes.adminTaggedEvents);
+  server.get('/api/admin/events', auth.checkAuthentication, eventRoutes.adminAllEvents);
+  server.get('/api/admin/events/:party', auth.checkAuthentication, eventRoutes.adminSinglePartyEvents);
+  server.get('/api/admin/events/:party/event/:event', auth.checkAuthentication, eventRoutes.adminSingleEvent);
+  server.get('/api/admin/events/:party/tags/:tags', auth.checkAuthentication, eventRoutes.adminTaggedEvents);
 
-  server.get('/api/admin/locations', locationRoutes.adminAllLocations);
-  server.get('/api/admin/locations/:party', locationRoutes.adminPartyLocations);
-  server.get('/api/admin/locations/:party/:location', locationRoutes.adminSingleLocation);
+  server.get('/api/admin/locations', auth.checkAuthentication, locationRoutes.adminAllLocations);
+  server.get('/api/admin/locations/:party', auth.checkAuthentication, locationRoutes.adminPartyLocations);
+  server.get('/api/admin/locations/:party/:location', auth.checkAuthentication, locationRoutes.adminSingleLocation);
 
-  server.get('/api/admin/parties', partyRoutes.adminAllParties);
-  server.get('/api/admin/parties/:partyid', partyRoutes.adminSingleParty);
+  server.get('/api/admin/parties', auth.checkAuthentication, partyRoutes.adminAllParties);
+  server.get('/api/admin/parties/:partyid', auth.checkAuthentication, partyRoutes.adminSingleParty);
 
   // TODO admin routes & functions
 

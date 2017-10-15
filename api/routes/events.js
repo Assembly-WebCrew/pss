@@ -6,7 +6,7 @@ const removeInternals = (event) => {
 
 const stripTags = (rawTags) => {
   var tags = [];
-  
+
   if (rawTags.includes('+')) {
     rawTags.split('+').forEach((tag) => {
       tags.push(tag);
@@ -40,7 +40,6 @@ const filterTaggedEvents = (events, tags) => {
 exports.allEvents = (req, res) => {
   models.event.findAll({
     where: {
-      party: req.params.party,
       public: true
     }
   }).then((events) => {
@@ -77,7 +76,7 @@ exports.singleEvent = (req, res) => {
     req.log.error(new Date(), 'Party', req.params.party, 'or event', req.params.event, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party or event does not meet requirements.');
   }
-  
+
   models.event.findOne({
     where: {
       party: req.params.party,
@@ -160,7 +159,7 @@ exports.adminSingleEvent = (req, res) => {
     req.log.error(new Date(), 'Party', req.params.party, 'or event', req.params.event, 'does not match requirements and cannot exist.');
     res.send(404, 'Defined party or event does not meet requirements.');
   }
-  
+
   models.event.findOne({
     where: {
       party: req.params.party,

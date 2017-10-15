@@ -2,7 +2,7 @@
 #BASEDIR does not work properly here in C9, but C9 dir is always the same "/home/ubuntu/workspace" so out-commented
 #BASEDIR=$(dirname ${BASH_SOURCE[0]})/.. 
  
-dbcmd="CREATE DATABASE IF NOT EXISTS pssdatabase;"
+dbcmd="CREATE DATABASE IF NOT EXISTS pssdatabase CHARACTER SET utf8 COLLATE utf8_general_ci;"
 mysql --user=pssdbuser --password=pssdbpassword --host=127.0.0.1 --execute="$dbcmd"
 
 # Synchronize the database tables and insert the test users

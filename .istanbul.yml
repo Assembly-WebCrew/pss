@@ -1,2 +1,0 @@
-instrumentation:
-  extensions: ['.es6','.js']

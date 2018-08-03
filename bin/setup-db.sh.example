@@ -1,7 +1,0 @@
-#!/bin/bash
- 
-dbcmd="CREATE DATABASE IF NOT EXISTS pssdatabase CHARACTER SET utf8 COLLATE utf8_general_ci;"
-mysql --user=pssdbuser --password=pssdbpassword --host=127.0.0.1 --execute="$dbcmd"
-
-# Synchronize the database tables and insert the test data
-babel-node bin/initdb.es6

@@ -1,13 +1,14 @@
 package org.assembly.pss.config;
 
+import org.assembly.pss.service.EventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
 
-    // @Bean
-    // public WhateverBean whateverBean() {
-    // return new WhateverBean();
-    // }
+    @Bean
+    public EventService eventService() {
+        return new EventService();
+    }
 }

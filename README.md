@@ -14,7 +14,7 @@ Requirements:
 - JDK8
 - Maven
 
-Building the final package:
+Building the final jar package:
 
 ```sh
 mvn package
@@ -28,11 +28,27 @@ Compile and execute without building a package (useful during development):
 mvn compile exec:java
 ```
 
+Database:
+
+For now, set up a local MySQL/MariaDB instance, database and user: (TODO: improve this)
+
+```sql
+create user pss@localhost identified by 'pss';
+create database pss;
+grant all on pss.* to pss@localhost;
+```
+
+and throw in the database with example data:
+
+```sh
+mysql -upss -ppss pss < pss.sql
+```
+
 TODO: Docker things
 
 ### Running
 
-Simply execute:
+(After having the jar built) simply execute:
 
 ```sh
 java -jar pss-*.jar

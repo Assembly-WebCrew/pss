@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.assembly.pss.bean.RequestError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 public abstract class AbstractController {
 
@@ -15,9 +16,14 @@ public abstract class AbstractController {
     @ResponseBody
     public RequestError error(Exception ex, HttpServletResponse response) {
         RequestError error = new RequestError();
-        LOG.error("Uncaught Exception thrown!", ex);
-        response.setStatus(500);
-        error.setError(ex.getClass().getSimpleName());
+        if (ex instanceof MethodArgumentTypeMismatchException && ex.getCause() instanceof NumberFormatException) {
+            response.setStatus(400);
+            error.setError("Invalid number argument, check your query!");
+        } else {
+            LOG.error("Uncaught Exception thrown!", ex);
+            response.setStatus(500);
+            error.setError(ex.getClass().getSimpleName());
+        }
         return error;
     }
 }

@@ -46,7 +46,8 @@ public class SwaggerConfig {
     }
 
     private List<ResponseMessage> responseMessages() {
-        return Arrays.asList(new ResponseMessageBuilder().code(500).message("Server error").responseModel(new ModelRef("Error")).build());
+        return Arrays.asList(new ResponseMessageBuilder().code(500).message("Server error").responseModel(new ModelRef("Error")).build(),
+                new ResponseMessageBuilder().code(400).message("Bad request").responseModel(new ModelRef("Error")).build());
     }
 
     @Bean

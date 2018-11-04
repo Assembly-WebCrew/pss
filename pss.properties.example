@@ -1,0 +1,10 @@
+# These are defaults, uncomment and change if needed
+
+# HTTP port to listen on
+#http.port=8080
+
+# Database config
+#db.url=jdbc:mysql://127.0.0.1:3306/pss
+#db.options=serverTimezone\=UTC
+#db.user=pss
+#db.password=pss

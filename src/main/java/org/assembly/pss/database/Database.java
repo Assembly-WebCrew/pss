@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.assembly.pss.bean.persistence.Event;
 import org.assembly.pss.bean.persistence.PublicEvent;
+import org.assembly.pss.config.PropertyConfig;
 
 public class Database {
 
@@ -19,9 +20,9 @@ public class Database {
 
     public Database() {
         Map<String, String> dbProps = new HashMap<>();
-        dbProps.put("javax.persistence.jdbc.url", "jdbc:mysql://127.0.0.1:3306/pss?serverTimezone=UTC");
-        dbProps.put("javax.persistence.jdbc.user", "pss");
-        dbProps.put("javax.persistence.jdbc.password", "pss");
+        dbProps.put("javax.persistence.jdbc.url", PropertyConfig.get("db.url") + '?' + PropertyConfig.get("db.options"));
+        dbProps.put("javax.persistence.jdbc.user", PropertyConfig.get("db.user"));
+        dbProps.put("javax.persistence.jdbc.password", PropertyConfig.get("db.password"));
         factory = Persistence.createEntityManagerFactory("pss", dbProps);
         try {
             EntityManager em = factory.createEntityManager();

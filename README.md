@@ -6,6 +6,11 @@ Backend for Assembly schedule management and viewing
 
 TODO
 
+### Configuration
+
+The defaults should be suitable for most cases, but especially for local dev different config may be useful. 
+To change the config, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
+
 ## Development
 
 ### Building

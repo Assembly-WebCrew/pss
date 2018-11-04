@@ -10,8 +10,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
@@ -38,7 +36,8 @@ public class SwaggerConfig {
                 .globalResponseMessage(RequestMethod.POST, responseMessages())
                 .globalResponseMessage(RequestMethod.PUT, responseMessages())
                 .globalResponseMessage(RequestMethod.PATCH, responseMessages())
-                .globalResponseMessage(RequestMethod.DELETE, responseMessages()).apiInfo(metadata());
+                .globalResponseMessage(RequestMethod.DELETE, responseMessages())
+                .apiInfo(metadata());
     }
 
     private ApiInfo metadata() {
@@ -46,19 +45,12 @@ public class SwaggerConfig {
     }
 
     private List<ResponseMessage> responseMessages() {
-        return Arrays.asList(new ResponseMessageBuilder().code(500).message("Server error").responseModel(new ModelRef("Error")).build(),
-                new ResponseMessageBuilder().code(400).message("Bad request").responseModel(new ModelRef("Error")).build());
+        return Arrays.asList(/*TODO*/);
     }
 
     @Bean
     public UiConfiguration uiConfig() {
-        return new UiConfiguration(null, // validation url
-                "none", // docExpansion
-                "alpha", // apiSorter
-                "schema", // defaultModelRendering
-                UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS, false, // enableJsonEditor
-                true, // showRequestHeaders
-                60000L); // requestTimeout => in milliseconds
+        return new UiConfiguration(null);
     }
 
     private class BasePathAwareRelativePathProvider extends AbstractPathProvider {

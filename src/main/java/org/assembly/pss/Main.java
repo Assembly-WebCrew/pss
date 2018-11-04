@@ -1,7 +1,8 @@
 package org.assembly.pss;
 
 import java.util.TimeZone;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.assembly.pss.config.PropertyConfig;
 
 import org.eclipse.jetty.server.Server;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public class Main {
 
-    private static final Logger LOG = Logger.getLogger(Main.class);
+    private static final Logger LOG = LogManager.getLogger();
     private static final int DEFAULT_PORT = 8080;
     private static final String CONTEXT_PATH = "";
     private static final String CONFIG_LOCATION = "org.assembly.pss.config";

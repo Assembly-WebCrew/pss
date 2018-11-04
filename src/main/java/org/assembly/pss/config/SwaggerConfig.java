@@ -11,6 +11,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.BasicAuth;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.paths.AbstractPathProvider;
@@ -37,7 +38,8 @@ public class SwaggerConfig {
                 .globalResponseMessage(RequestMethod.PUT, responseMessages())
                 .globalResponseMessage(RequestMethod.PATCH, responseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, responseMessages())
-                .apiInfo(metadata());
+                .apiInfo(metadata())
+                .securitySchemes(Arrays.asList(new BasicAuth("basicAuth")));
     }
 
     private ApiInfo metadata() {

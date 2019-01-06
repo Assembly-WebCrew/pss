@@ -2,6 +2,7 @@ package org.assembly.pss.bean.persistence;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractEvent implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
     private String name;
@@ -26,12 +27,12 @@ public abstract class AbstractEvent implements Serializable {
     private Long endTime;
     private String url;
     private String mediaUrl;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Location location;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "events_tags",
             joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_key", referencedColumnName = "key"))
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags;
     private String party;
     private Boolean isPublic;

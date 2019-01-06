@@ -8,7 +8,6 @@ TODO
 
 ### Configuration
 
-The defaults should be suitable for most cases, but especially for local dev different config may be useful. 
 To change the config, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
 
 ## Development
@@ -35,7 +34,7 @@ mvn compile exec:java
 
 Database:
 
-For now, set up a local MySQL/MariaDB instance, database and user: (TODO: improve this)
+For now, set up a MySQL/MariaDB database and user manually: (TODO: improve this)
 
 ```sql
 create user pss@localhost identified by 'pss';
@@ -43,7 +42,7 @@ create database pss;
 grant all on pss.* to pss@localhost;
 ```
 
-and throw in the database with example data:
+and throw in the database table structure:
 
 ```sh
 mysql -upss -ppss pss < pss.sql

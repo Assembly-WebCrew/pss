@@ -1,10 +1,11 @@
 package org.assembly.pss.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
 import org.assembly.pss.bean.persistence.PublicEvent;
-import org.assembly.pss.service.EventService;
+import org.assembly.pss.database.Database;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,14 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "Event")
 @RestController
-@RequestMapping(value = "/api/event", produces = "application/json")
+@RequestMapping(value = "/api/event")
 public class Events extends AbstractController {
 
     @Resource
-    private EventService eventService;
+    private Database database;
 
     @RequestMapping(method = RequestMethod.GET, value = "/party/{party}")
+    @ApiOperation("Get all public events for a given party")
     public List<PublicEvent> getPublicEvents(@PathVariable String party, @RequestParam(required = false) Long location, @RequestParam(required = false) String tag) {
-        return eventService.getPublicEvents(party, location, tag);
+        return database.getPublicEvents(party, location, tag);
     }
 }

@@ -1,12 +1,11 @@
 package org.assembly.pss.bean.persistence;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,34 +13,24 @@ import javax.persistence.Table;
 public class Tag implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
-    private String key;
-    private String displayName;
-    @JsonIgnore
-    @ManyToMany(mappedBy = "tags")
-    private List<PublicEvent> publicEvents;
+    private Long id;
+    private String name;
 
-    public String getKey() {
-        return key;
+    public Long getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getName() {
+        return name;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public List<PublicEvent> getPublicEvents() {
-        return publicEvents;
-    }
-
-    public void setPublicEvents(List<PublicEvent> publicEvents) {
-        this.publicEvents = publicEvents;
+    public void setName(String name) {
+        this.name = name;
     }
 }

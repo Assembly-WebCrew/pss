@@ -37,7 +37,7 @@ public class PropertyConfig {
      *
      * @param key
      * @param defaultValue Value to return if the specified config value is not
-     * an int or it is unsed
+     * an int or it is unset
      * @return the value, or defaultValue if the value is not specified
      */
     public static int getAsInt(String key, int defaultValue) {

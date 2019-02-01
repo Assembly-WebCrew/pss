@@ -69,28 +69,24 @@ public class PropertyConfig {
                     config.put(key, value);
                 }
             }
-            System.getenv()
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().startsWith("PSS_"))
-                .forEach(entry -> {
-                    switch (entry.getKey()) {
-                        case "PSS_HTTP_PORT":
-                            config.put("http.port", entry.getValue());
-                            break;
-                        case "PSS_DATABASE_URL":
-                            config.put("db.url", entry.getValue());
-                            break;
-                        case "PSS_DATABASE_USER":
-                            config.put("db.user", entry.getValue());
-                            break;
-                        case "PSS_DATABASE_PASSWORD":
-                            config.put("db.password", entry.getValue());
-                            break;
-                        default:
-                            break;
-                    }
-                });
+            System.getenv().forEach((key, value) -> {
+                switch (key) {
+                    case "PSS_HTTP_PORT":
+                        config.put("http.port", value);
+                        break;
+                    case "PSS_DATABASE_URL":
+                        config.put("db.url", value);
+                        break;
+                    case "PSS_DATABASE_USER":
+                        config.put("db.user", value);
+                        break;
+                    case "PSS_DATABASE_PASSWORD":
+                        config.put("db.password", value);
+                        break;
+                    default:
+                        break;
+                }
+            });
         } catch (URISyntaxException | IOException ex) {
             LOG.warn("Failed to read configuration, using default values...", ex);
         }

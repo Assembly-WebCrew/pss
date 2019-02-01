@@ -3,3 +3,9 @@
 
 # Local configs
 pss.properties
+
+# VS Code
+/.settings/
+/.classpath
+/.factorypath
+/.project

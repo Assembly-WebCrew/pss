@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: pss
+      MYSQL_DATABASE: pss
+      MYSQL_USER: pss
+      MYSQL_PASSWORD: pss
+    volumes:
+      - ./pss.sql:/docker-entrypoint-initdb.d/pss.sql
+  backend:
+    build: .
+    image: assembly/pss:latest
+    environment:
+      PSS_DATABASE_URL: jdbc:mysql://db:3306/pss
+    ports:
+      - 5000:5000
+    depends_on:
+      - db

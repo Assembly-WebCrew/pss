@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,6 +73,28 @@ public class PropertyConfig {
                     config.put(key, value);
                 }
             }
+            System.getenv()
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().startsWith("PSS_"))
+                .forEach(entry -> {
+                    switch (entry.getKey()) {
+                        case "PSS_HTTP_PORT":
+                            config.put("http.port", entry.getValue());
+                            break;
+                        case "PSS_DATABASE_URL":
+                            config.put("db.url", entry.getValue());
+                            break;
+                        case "PSS_DATABASE_USER":
+                            config.put("db.user", entry.getValue());
+                            break;
+                        case "PSS_DATABASE_PASSWORD":
+                            config.put("db.password", entry.getValue());
+                            break;
+                        default:
+                            break;
+                    }
+                });
         } catch (URISyntaxException | IOException ex) {
             LOG.warn("Failed to read configuration, using default values...", ex);
         }

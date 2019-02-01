@@ -2,14 +2,6 @@
 
 Backend for Assembly schedule management and viewing
 
-## Running
-
-TODO
-
-### Configuration
-
-To change the config, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
-
 ## Development
 
 ### Building
@@ -48,9 +40,7 @@ and throw in the database table structure:
 mysql -upss -ppss pss < pss.sql
 ```
 
-TODO: Docker things
-
-### Running
+## Running
 
 (After having the jar built) simply execute:
 
@@ -58,7 +48,18 @@ TODO: Docker things
 java -jar pss-*.jar
 ```
 
-TODO: Docker things
+### Requirements
+
+* JRE8+
+* MySQL Server or compatible alternative (eg. MariaDB)
+
+### Docker
+
+To run the application in docker you simply need to run `docker-compose up` and it will build the backend container and spool it up along with the required database instance.
+
+### Configuration
+
+To change the config, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
 
 ### API/Development
 

@@ -69,6 +69,24 @@ public class PropertyConfig {
                     config.put(key, value);
                 }
             }
+            System.getenv().forEach((key, value) -> {
+                switch (key) {
+                    case "PSS_HTTP_PORT":
+                        config.put("http.port", value);
+                        break;
+                    case "PSS_DATABASE_URL":
+                        config.put("db.url", value);
+                        break;
+                    case "PSS_DATABASE_USER":
+                        config.put("db.user", value);
+                        break;
+                    case "PSS_DATABASE_PASSWORD":
+                        config.put("db.password", value);
+                        break;
+                    default:
+                        break;
+                }
+            });
         } catch (URISyntaxException | IOException ex) {
             LOG.warn("Failed to read configuration, using default values...", ex);
         }

@@ -1,6 +1,10 @@
 language: java
 jdk:
-  - oraclejdk8
-  - openjdk8
+- oraclejdk8
+- openjdk8
 script:
-  - mvn package
+- mvn package
+notifications:
+  slack:
+    rooms:
+      secure: jSyZrPBHvy4sgaVx6fTcblZnYRL5hHlx1MjMa4QN5m2HknySYTSJpp37rKm23WdHLRK/c+OvHOEHewzFecByRxfJFE/1RIfOtjD4HB+BsCWRV4RlOKoCuRwVEflIuvsrlpfqAbmfH9Og5ZfeATVcu7gAkWBhEsi1m/9D0moGOY168a68wpzsKs/YGmz9i74s/XuR8vG87Q+pY/7y9yR6f5UwlmjFbNvFkXoPrkT1RAkySefw1+PQ2XzzNHQoGaJGYgsF+FZJPGZD8DUS0/GmbCrfEVEV9iCC5u08XW3P0RO4dNjOSbVAUQSR6toKtowvIxt1J0n2OPVZqzNyawaTjttTFVXEFOorm3kpUXJdNBpV5Yj0dbDkgEHW9cWlVd6NmLqkXiZunSLnmj/XFJ2IbwQr/rCfUEva4PH+jHt/JG/EuHXatGe9VVHtvEerfGMyBo7LaYH6Ssf+D2dlyAPmf2oRzsBpz4e10GuciXuAJ3WKxMJNomZiGJNrJcVZA8rn0YMvBQGmzQNknjbtJEuWDYTFVgwwDF0rT7mt+RlD26jDQGB/tyxQQoNYjiD6rYbg6rw4W1RB95MxAQcTnSzLqoNmPVfvKJCIdVOzd1OiugHF/g6gfJuWsjb+jiZk6V1TPXsquuN7v/W/xIMzlCb+YPbzqPnKpk8+B4xxdLY5OhE=

@@ -16,5 +16,6 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=build /src/target/pss-*.jar /app/
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 
-CMD ["/bin/sh", "-c", "/usr/bin/java -jar ./pss-*"]
+CMD ["/bin/sh", "docker-entrypoint.sh"]

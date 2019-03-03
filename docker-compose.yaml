@@ -7,8 +7,6 @@ services:
       MYSQL_DATABASE: pss
       MYSQL_USER: pss
       MYSQL_PASSWORD: pss
-    volumes:
-      - ./pss.sql:/docker-entrypoint-initdb.d/pss.sql
   backend:
     build: .
     image: assembly/pss:latest

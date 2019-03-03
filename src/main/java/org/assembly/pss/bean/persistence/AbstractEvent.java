@@ -20,12 +20,18 @@ public abstract class AbstractEvent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
+    @Column(nullable = false, length = 500)
     private String name;
+    @Column(length = 5000)
     private String description;
+    @Column(nullable = false)
     private Long startTime;
     private Long originalStartTime;
+    @Column(nullable = false)
     private Long endTime;
+    @Column(length = 1000)
     private String url;
+    @Column(length = 1000)
     private String mediaUrl;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Location location;
@@ -34,7 +40,9 @@ public abstract class AbstractEvent implements Serializable {
             joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags;
+    @Column(nullable = false)
     private String party;
+    @Column(nullable = false)
     private Boolean isPublic;
 
     public Long getId() {

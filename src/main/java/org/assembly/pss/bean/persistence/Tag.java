@@ -16,6 +16,7 @@ public class Tag implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
+    @Column(nullable = false, length = 500)
     private String name;
 
     public Long getId() {

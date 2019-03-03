@@ -22,7 +22,7 @@ public class Events extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/party/{party}")
     @ApiOperation("Get all public events for a given party")
-    public List<PublicEvent> getPublicEvents(@PathVariable String party, @RequestParam(required = false) Long location, @RequestParam(required = false) String tag) {
+    public List<PublicEvent> getPublicEvents(@PathVariable String party, @RequestParam(required = false) Long location, @RequestParam(required = false) Long tag) {
         return database.getPublicEvents(party, location, tag);
     }
 }

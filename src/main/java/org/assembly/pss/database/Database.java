@@ -83,10 +83,10 @@ public class Database {
      *
      * @param party required
      * @param locationId optional
-     * @param tag optional
+     * @param tagId optional
      * @return All public events matching the criteria
      */
-    public List<PublicEvent> getPublicEvents(String party, Long locationId, String tag) {
+    public List<PublicEvent> getPublicEvents(String party, Long locationId, Long tagId) {
         EntityManager em = factory.createEntityManager();
         try {
             Map<String, Object> params = new HashMap<>();
@@ -96,9 +96,9 @@ public class Database {
                 queryString += " and e.location.id = :locationId";
                 params.put("locationId", locationId);
             }
-            if (StringUtils.isNotBlank(tag)) {
-                queryString += " and t.key = :tag";
-                params.put("tag", tag);
+            if (tagId != null) {
+                queryString += " and t.id = :tag";
+                params.put("tag", tagId);
             }
             TypedQuery<PublicEvent> q = em.createQuery(queryString, PublicEvent.class);
             params.forEach(q::setParameter);

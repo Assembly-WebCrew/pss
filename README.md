@@ -59,7 +59,11 @@ To run the application in docker you simply need to run `docker-compose up` and 
 
 ### Configuration
 
-To change the config, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
+Configuration can be set with a config file and/or environment variables.
+
+To set the config with a config file, copy `pss.properties.example` as `pss.properties` either to the same directory as the jar or the parent directory (=project root when local dev)
+
+To set the config with environment variables, convert the properties to uppercase, replace dots with underscores and prefix them with `PSS_`. For example, the `http.port` in the config can be set with with `PSS_HTTP_PORT` environment variable. All available config properties are in `pss.properties.example`.
 
 ### API/Development
 

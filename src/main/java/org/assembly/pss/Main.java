@@ -29,7 +29,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.setProperty("user.timezone", "UTC");
         TimeZone.setDefault(null);
-        new Main().startJetty(PropertyConfig.getAsInt("http.port", DEFAULT_PORT));
+        new Main().startJetty(PropertyConfig.getInt("http.port", DEFAULT_PORT));
     }
 
     private void startJetty(int port) throws Exception {

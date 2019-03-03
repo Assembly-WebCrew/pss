@@ -1,10 +1,18 @@
 # These are defaults, uncomment and change if needed
+# do note that config supplied via environment variables will take precedence over the config file
+# environment variables are prefixed with PSS_ and are all uppercase, with dots replaced by underscores
+# for example, http.port can be set with PSS_HTTP_PORT environment variable
 
 # HTTP port to listen on
 #http.port=8080
 
 # Database config
-#db.url=jdbc:mysql://127.0.0.1:3306/pss
-#db.options=serverTimezone\=UTC
-#db.user=pss
-#db.password=pss
+#database.url=jdbc:mysql://127.0.0.1:3306/pss
+#database.options=serverTimezone\=UTC
+#database.user=pss
+#database.password=pss
+
+# Admin user config (temporary, until proper authentication is implemented)
+# Blank values will disable all admin functions
+#admin.user=
+#admin.password=

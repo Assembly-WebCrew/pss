@@ -15,7 +15,8 @@ import org.apache.logging.log4j.Logger;
 public class PropertyConfig {
 
     private static final Logger LOG = LogManager.getLogger();
-    private static final Map<String, String> config = new HashMap<>();
+    private static final Map<String, String> CONFIG = new HashMap<>();
+    private static final String ENV_PREFIX = "PSS_";
 
     static {
         createDefaultConfig();
@@ -29,7 +30,7 @@ public class PropertyConfig {
      * @return the value, or null if it's not specified
      */
     public static String get(String key) {
-        return config.get(key);
+        return CONFIG.get(key);
     }
 
     /**
@@ -40,12 +41,22 @@ public class PropertyConfig {
      * an int or it is unset
      * @return the value, or defaultValue if the value is not specified
      */
-    public static int getAsInt(String key, int defaultValue) {
+    public static int getInt(String key, int defaultValue) {
         try {
             return Integer.parseInt(get(key));
         } catch (NullPointerException | NumberFormatException ex) {
             return defaultValue;
         }
+    }
+
+    private static void createDefaultConfig() {
+        CONFIG.put("http.port", "8080");
+        CONFIG.put("database.url", "jdbc:mysql://127.0.0.1:3306/pss");
+        CONFIG.put("database.options", "serverTimezone=UTC");
+        CONFIG.put("database.user", "pss");
+        CONFIG.put("database.password", "pss");
+        CONFIG.put("admin.user", null);
+        CONFIG.put("admin.password", null);
     }
 
     private static void readConfig() {
@@ -66,37 +77,16 @@ public class PropertyConfig {
                 while (e.hasMoreElements()) {
                     String key = (String) e.nextElement();
                     String value = props.getProperty(key);
-                    config.put(key, value);
+                    CONFIG.put(key, value);
                 }
             }
             System.getenv().forEach((key, value) -> {
-                switch (key) {
-                    case "PSS_HTTP_PORT":
-                        config.put("http.port", value);
-                        break;
-                    case "PSS_DATABASE_URL":
-                        config.put("db.url", value);
-                        break;
-                    case "PSS_DATABASE_USER":
-                        config.put("db.user", value);
-                        break;
-                    case "PSS_DATABASE_PASSWORD":
-                        config.put("db.password", value);
-                        break;
-                    default:
-                        break;
+                if (key.startsWith(ENV_PREFIX)) {
+                    CONFIG.put(key.substring(ENV_PREFIX.length()).toLowerCase().replace("_", "."), value);
                 }
             });
         } catch (URISyntaxException | IOException ex) {
             LOG.warn("Failed to read configuration, using default values...", ex);
         }
-    }
-
-    private static void createDefaultConfig() {
-        config.put("http.port", "8080");
-        config.put("db.url", "jdbc:mysql://127.0.0.1:3306/pss");
-        config.put("db.options", "serverTimezone=UTC");
-        config.put("db.user", "pss");
-        config.put("db.password", "pss");
     }
 }

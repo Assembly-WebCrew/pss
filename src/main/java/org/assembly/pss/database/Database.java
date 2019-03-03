@@ -25,9 +25,9 @@ public class Database {
 
     public Database() {
         Map<String, String> dbProps = new HashMap<>();
-        dbProps.put("javax.persistence.jdbc.url", PropertyConfig.get("db.url") + '?' + PropertyConfig.get("db.options"));
-        dbProps.put("javax.persistence.jdbc.user", PropertyConfig.get("db.user"));
-        dbProps.put("javax.persistence.jdbc.password", PropertyConfig.get("db.password"));
+        dbProps.put("javax.persistence.jdbc.url", PropertyConfig.get("database.url") + '?' + PropertyConfig.get("database.options"));
+        dbProps.put("javax.persistence.jdbc.user", PropertyConfig.get("database.user"));
+        dbProps.put("javax.persistence.jdbc.password", PropertyConfig.get("database.password"));
         factory = Persistence.createEntityManagerFactory("pss", dbProps);
         try {
             EntityManager em = factory.createEntityManager();

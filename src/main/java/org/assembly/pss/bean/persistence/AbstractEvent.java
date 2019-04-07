@@ -1,12 +1,11 @@
 package org.assembly.pss.bean.persistence;
 
+import org.assembly.pss.bean.persistence.entity.Tag;
+import org.assembly.pss.bean.persistence.entity.Location;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -14,14 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class AbstractEvent implements Serializable {
+public abstract class AbstractEvent extends AbstractNamedEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
-    private Long id;
-    @Column(nullable = false)
-    private String name;
     private String description;
     @Column(nullable = false)
     private Long startTime;
@@ -41,22 +34,6 @@ public abstract class AbstractEvent implements Serializable {
     private String party;
     @Column(nullable = false)
     private Boolean isPublic;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;

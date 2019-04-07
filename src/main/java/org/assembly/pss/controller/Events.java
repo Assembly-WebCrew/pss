@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
-import org.assembly.pss.bean.persistence.PublicEvent;
+import org.assembly.pss.bean.persistence.entity.PublicEvent;
 import org.assembly.pss.database.Database;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

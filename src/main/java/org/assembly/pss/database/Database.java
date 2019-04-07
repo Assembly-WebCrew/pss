@@ -10,10 +10,11 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.assembly.pss.bean.persistence.Event;
-import org.assembly.pss.bean.persistence.Location;
-import org.assembly.pss.bean.persistence.PublicEvent;
-import org.assembly.pss.bean.persistence.Tag;
+import org.assembly.pss.bean.persistence.AbstractEntity;
+import org.assembly.pss.bean.persistence.entity.Event;
+import org.assembly.pss.bean.persistence.entity.Location;
+import org.assembly.pss.bean.persistence.entity.PublicEvent;
+import org.assembly.pss.bean.persistence.entity.Tag;
 import org.assembly.pss.config.PropertyConfig;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class Database {
      * @param obj The object to merge
      * @return The resulting object after the merge
      */
-    public <T extends Object> T merge(T obj) {
+    public <T extends AbstractEntity> T merge(T obj) {
         EntityManager em = factory.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -66,7 +67,7 @@ public class Database {
      *
      * @param obj The object to remove
      */
-    public void remove(Object obj) {
+    public void remove(AbstractEntity obj) {
         EntityManager em = factory.createEntityManager();
         try {
             em.getTransaction().begin();

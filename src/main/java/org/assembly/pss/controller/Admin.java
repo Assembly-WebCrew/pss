@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
 import org.assembly.pss.annotation.RequireAdmin;
@@ -14,8 +15,11 @@ import org.assembly.pss.bean.persistence.entity.Event;
 import org.assembly.pss.bean.persistence.entity.Location;
 import org.assembly.pss.bean.persistence.entity.Tag;
 import org.assembly.pss.database.Database;
+import org.assembly.pss.service.CsvImporter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequireAdmin
 @Api(tags = "Admin")
@@ -25,6 +29,8 @@ public class Admin extends AbstractController {
 
     @Resource
     private Database database;
+    @Resource
+    private CsvImporter csvImporter;
 
     @RequestMapping(method = RequestMethod.GET, value = "/event/party/{party}")
     @ApiOperation(value = "Get all public and non-public events for a given party", authorizations = {
@@ -122,5 +128,15 @@ public class Admin extends AbstractController {
             throw new IllegalStateException("Can't delete tag with ID: " + id + " since it doesn't seem to exist");
         }
         database.remove(tag);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/event/import/party/{name}")
+    @ApiOperation(value = "Import events from a CSV file", authorizations = {
+        @Authorization(value = "basicAuth")})
+    public void importEvents(@RequestParam("file") MultipartFile file, @PathVariable String name) {
+        try {
+            csvImporter.importEvents(file.getInputStream(), name);
+        } catch (IOException ex) {
+        }
     }
 }

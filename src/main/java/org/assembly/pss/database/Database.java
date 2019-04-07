@@ -166,7 +166,7 @@ public class Database {
      * Get a single tag by its ID
      *
      * @param id
-     * @return The Event
+     * @return The Tag
      */
     public Tag getTag(Integer id) {
         EntityManager em = factory.createEntityManager();
@@ -202,7 +202,7 @@ public class Database {
      * Get a single location by its ID
      *
      * @param id
-     * @return The Event
+     * @return The Location
      */
     public Location getLocation(Integer id) {
         EntityManager em = factory.createEntityManager();
@@ -210,6 +210,26 @@ public class Database {
             String queryString = "from Location l where l.id = :id";
             TypedQuery<Location> q = em.createQuery(queryString, Location.class);
             q.setParameter("id", id);
+            return q.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Get a single location by its name
+     *
+     * @param name
+     * @return The Location
+     */
+    public Location getLocation(String name) {
+        EntityManager em = factory.createEntityManager();
+        try {
+            String queryString = "from Location l where l.name = :name";
+            TypedQuery<Location> q = em.createQuery(queryString, Location.class);
+            q.setParameter("name", name);
             return q.getSingleResult();
         } catch (NoResultException ex) {
             return null;

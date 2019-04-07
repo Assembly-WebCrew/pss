@@ -14,6 +14,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.flywaydb.core.Flyway;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -29,7 +30,21 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.setProperty("user.timezone", "UTC");
         TimeZone.setDefault(null);
-        new Main().startJetty(PropertyConfig.getInt("http.port", DEFAULT_PORT));
+        LOG.info("Creating main instance");
+        Main m = new Main();
+        LOG.info("Upgrading database");
+        m.upgradeDatabase();
+        LOG.info("Starting Jetty");
+        m.startJetty(PropertyConfig.getInt("http.port", DEFAULT_PORT));
+        LOG.info("Jetty has exited, exiting application");
+    }
+
+    private void upgradeDatabase() {
+        String url = PropertyConfig.get("database.url");
+        String user = PropertyConfig.get("database.user");
+        String pass = PropertyConfig.get("database.password");
+        Flyway flyway = Flyway.configure().dataSource(url, user, pass).load();
+        flyway.migrate();
     }
 
     private void startJetty(int port) throws Exception {

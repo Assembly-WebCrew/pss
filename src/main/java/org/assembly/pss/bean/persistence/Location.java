@@ -16,11 +16,9 @@ public class Location implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String name;
-    @Column(length = 5000)
     private String description;
-    @Column(length = 1000)
     private String url;
 
     public Long getId() {

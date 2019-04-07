@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.apache.commons.lang3.StringUtils;
 import org.assembly.pss.bean.persistence.Event;
 import org.assembly.pss.bean.persistence.Location;
 import org.assembly.pss.bean.persistence.PublicEvent;

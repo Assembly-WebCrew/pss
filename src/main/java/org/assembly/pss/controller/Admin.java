@@ -8,14 +8,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import org.assembly.pss.annotation.RequireAdmin;
+import org.assembly.pss.bean.ImportResult;
 import org.assembly.pss.bean.persistence.entity.Event;
 import org.assembly.pss.bean.persistence.entity.Location;
 import org.assembly.pss.bean.persistence.entity.Tag;
 import org.assembly.pss.database.Database;
-import org.assembly.pss.service.CsvImporter;
+import org.assembly.pss.service.CsvService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +33,7 @@ public class Admin extends AbstractController {
     @Resource
     private Database database;
     @Resource
-    private CsvImporter csvImporter;
+    private CsvService csvService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/event/party/{party}")
     @ApiOperation(value = "Get all public and non-public events for a given party", authorizations = {
@@ -130,13 +133,25 @@ public class Admin extends AbstractController {
         database.remove(tag);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/event/import/party/{name}")
+    @RequestMapping(method = RequestMethod.POST, value = "/event/import")
     @ApiOperation(value = "Import events from a CSV file", authorizations = {
         @Authorization(value = "basicAuth")})
-    public void importEvents(@RequestParam("file") MultipartFile file, @PathVariable String name) {
+    public ImportResult importEvents(@RequestParam("file") MultipartFile file) {
         try {
-            csvImporter.importEvents(file.getInputStream(), name);
+            return csvService.importEvents(file.getInputStream());
         } catch (IOException ex) {
+            throw new IllegalStateException("Can't import CSV", ex);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/event/party/{name}/export")
+    @ApiOperation(value = "Export events to a CSV file", produces = "text/csv", authorizations = {
+        @Authorization(value = "basicAuth")})
+    public String exportEvents(HttpServletResponse response, @PathVariable String name) {
+        response.setContentType("text/csv; charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"events_" + name + ".csv\"");
+        StringWriter writer = new StringWriter();
+        csvService.exportEvents(writer, name);
+        return writer.toString();
     }
 }

@@ -6,7 +6,7 @@ Backend for Assembly schedule management and viewing
 
 ### Building
 
-Requirements:
+Development requirements:
 - JDK8
 - Maven
 
@@ -26,18 +26,12 @@ mvn compile exec:java
 
 Database:
 
-For now, set up a MySQL/MariaDB database and user manually: (TODO: improve this)
+For for local development, set up a MySQL/MariaDB database and user:
 
 ```sql
 create user pss@localhost identified by 'pss';
 create database pss;
 grant all on pss.* to pss@localhost;
-```
-
-and throw in the database table structure:
-
-```sh
-mysql -upss -ppss pss < pss.sql
 ```
 
 ## Running
@@ -48,14 +42,23 @@ mysql -upss -ppss pss < pss.sql
 java -jar pss-*.jar
 ```
 
+Or build and run everything in Docker with docker-compose:
+
+```sh
+docker-compose up -d
+```
+
 ### Requirements
 
-* JRE8+
-* MySQL Server or compatible alternative (eg. MariaDB)
+Dockerized:
 
-### Docker
+- Docker
+- docker-compose
 
-To run the application in docker you simply need to run `docker-compose up` and it will build the backend container and spool it up along with the required database instance.
+Oldskool without docker:
+
+- JRE8+
+- MySQL Server or compatible alternative (eg. MariaDB)
 
 ### Configuration
 

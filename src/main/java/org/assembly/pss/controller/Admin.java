@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.Authorization;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -20,6 +21,7 @@ import org.assembly.pss.bean.persistence.entity.Tag;
 import org.assembly.pss.database.Database;
 import org.assembly.pss.service.CsvService;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,9 +138,10 @@ public class Admin extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/event/import")
     @ApiOperation(value = "Import events from a CSV file", authorizations = {
         @Authorization(value = "basicAuth")})
-    public ImportResult importEvents(@RequestParam("file") MultipartFile file) {
+    public ImportResult importEvents(@RequestParam("file") MultipartFile file,
+            @ApiParam("Force dangerous operations such as changing the party of existing events") @RequestParam(required = false) Boolean force) {
         try {
-            return csvService.importEvents(file.getInputStream());
+            return csvService.importEvents(file.getInputStream(), Boolean.TRUE.equals(force));
         } catch (IOException ex) {
             throw new IllegalStateException("Can't import CSV", ex);
         }

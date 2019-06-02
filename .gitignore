@@ -3,6 +3,7 @@
 
 # Local configs
 pss.properties
+.env
 
 # VS Code
 /.settings/

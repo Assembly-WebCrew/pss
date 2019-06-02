@@ -11,8 +11,10 @@ services:
     build: .
     image: assembly/pss:latest
     environment:
-      PSS_DATABASE_URL: jdbc:mysql://db:3306/pss
+      - PSS_DATABASE_URL=jdbc:mysql://db:3306/pss
+      - PSS_ADMIN_USER
+      - PSS_ADMIN_PASSWORD
     ports:
-      - 5000:5000
+      - 8080:8080
     depends_on:
       - db

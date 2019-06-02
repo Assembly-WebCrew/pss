@@ -41,10 +41,11 @@ public class Main {
 
     private void upgradeDatabase() {
         String url = PropertyConfig.get("database.url");
+        String options = PropertyConfig.get("database.options");
         String user = PropertyConfig.get("database.user");
         String pass = PropertyConfig.get("database.password");
-        Flyway flyway = Flyway.configure().dataSource(url, user, pass).load();
-        flyway.migrate();
+        String fullUrl = options == null ? url : url + '?' + options;
+        Flyway.configure().dataSource(fullUrl, user, pass).load().migrate();
     }
 
     private void startJetty(int port) throws Exception {

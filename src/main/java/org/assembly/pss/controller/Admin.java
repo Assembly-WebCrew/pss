@@ -8,7 +8,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.Authorization;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.List;
 import javax.annotation.Resource;
@@ -138,13 +140,9 @@ public class Admin extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/event/import")
     @ApiOperation(value = "Import events from a CSV file", authorizations = {
         @Authorization(value = "basicAuth")})
-    public ImportResult importEvents(@RequestParam("file") MultipartFile file,
+    public ImportResult importEvents(@RequestBody byte[] file,
             @ApiParam("Force dangerous operations such as changing the party of existing events") @RequestParam(required = false) Boolean force) {
-        try {
-            return csvService.importEvents(file.getInputStream(), Boolean.TRUE.equals(force));
-        } catch (IOException ex) {
-            throw new IllegalStateException("Can't import CSV", ex);
-        }
+        return csvService.importEvents(new ByteArrayInputStream(file), Boolean.TRUE.equals(force));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/event/party/{name}/export")

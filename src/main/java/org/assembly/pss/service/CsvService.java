@@ -19,13 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -157,7 +153,7 @@ public class CsvService {
             if (currentColumn != null) {
                 Pair<Function<Event, String>, BiConsumer<Event, String>> funcs = eventColumns.get(currentColumn);
                 if (funcs != null) {
-                    if (currentColumn.equals("id") && event.getId() != null && !event.getId().equals(uncheckedInt(value))) {
+                    if (currentColumn.equals("id") && event.getId() == null) {
                         warnings.add("Attempted to use event id " + value + " which does not exist in the database, ignoring the id");
                     } else {
                         String currentValue = funcs.getLeft().apply(event);
@@ -200,7 +196,11 @@ public class CsvService {
         // Switch for all "dangerous fields" with their error/warning messages
         switch (column) {
             case "party":
-                msg = (force ? "Changing" : "Can't change") + " party from " + event.getParty() + " to " + value + " on event with ID " + event.getId() + " without force";
+                if (force) {
+                    msg = "Changing party from " + event.getParty() + " to " + value + " on event with ID " + event.getId();
+                } else {
+                    msg = "Can't change party from " + event.getParty() + " to " + value + " on event with ID " + event.getId() + " without force";
+                }
                 break;
             default: // No danger ...
                 setter.accept(event, value); // ... so just set the value ...

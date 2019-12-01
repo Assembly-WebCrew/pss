@@ -65,7 +65,6 @@ public class CsvService {
         eventColumns.put("startTime", Pair.of(time(Event::getStartTime), time(Event::setStartTime)));
         eventColumns.put("endTime", Pair.of(time(Event::getEndTime), time(Event::setEndTime)));
         eventColumns.put("originalStartTime", Pair.of(time(Event::getOriginalStartTime), time(Event::setOriginalStartTime)));
-        eventColumns.put("endTime", Pair.of(time(Event::getEndTime), time(Event::setEndTime)));
         eventColumns.put("url", Pair.of(Event::getUrl, Event::setUrl));
         eventColumns.put("mediaUrl", Pair.of(Event::getMediaUrl, Event::setMediaUrl));
         eventColumns.put("location", Pair.of(location(Event::getLocation), location(Event::setLocation)));
@@ -154,7 +153,9 @@ public class CsvService {
                 Pair<Function<Event, String>, BiConsumer<Event, String>> funcs = eventColumns.get(currentColumn);
                 if (funcs != null) {
                     if (currentColumn.equals("id") && event.getId() == null) {
-                        warnings.add("Attempted to use event id " + value + " which does not exist in the database, ignoring the id");
+                        if (StringUtils.isNotBlank(value)) {
+                            warnings.add("Attempted to use event id " + value + " which does not exist in the database, ignoring the id");
+                        }
                     } else {
                         String currentValue = funcs.getLeft().apply(event);
                         if (!Objects.equals(currentValue, value)) { // No need to process if there's no change in the value

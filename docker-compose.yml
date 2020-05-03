@@ -2,6 +2,7 @@ version: '3'
 services:
   db:
     image: mariadb:latest
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: pss
       MYSQL_DATABASE: pss
@@ -9,7 +10,7 @@ services:
       MYSQL_PASSWORD: pss
   backend:
     build: .
-    image: assembly/pss:latest
+    restart: unless-stopped
     environment:
       - PSS_DATABASE_URL=jdbc:mysql://db:3306/pss
       - PSS_ADMIN_USER

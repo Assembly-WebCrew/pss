@@ -42,7 +42,7 @@ grant all on pss.* to pss@localhost;
 java -jar pss-*.jar
 ```
 
-Or build and run everything in Docker with docker-compose:
+Or build and run everything in Docker with docker-compose (for local dev, for prod use you might want to create a new compose with the frontend included):
 
 ```sh
 docker-compose up -d

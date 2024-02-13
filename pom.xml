@@ -8,7 +8,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jetty.version>9.4.30.v20200611</jetty.version>
+        <jetty.version>9.4.54.v20240208</jetty.version>
     </properties>
 
     <dependencies>
